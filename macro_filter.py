@@ -25,8 +25,6 @@ for part in msg.iter_parts():
 			new_content = RID_RE.sub('', content)
 			part.set_content(new_content, subtype=content_type)
 			continue
-		else:
-			quit(1) # No matches, this isn't supposed to happen
 	if EXT_RE.search(filename):
 		# Make a temporary file, open it for reading and writing, and 
 		# dump the decoded attachment payload into it.
