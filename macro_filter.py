@@ -24,7 +24,7 @@ for part in msg.iter_parts():
 			rid = matches.group(1)
 			new_content = RID_RE.sub('', content)
 			part.set_content(new_content, subtype=content_type)
-			continue
+		continue
 	if EXT_RE.search(filename):
 		# Make a temporary file, open it for reading and writing, and 
 		# dump the decoded attachment payload into it.
@@ -50,12 +50,10 @@ for part in msg.iter_parts():
 			data_new = data.replace(comments, bytearray(rid.rjust(comments_len, padding), 'utf-8'))
 			ole.write_stream('\x05SummaryInformation', data_new)
 			ole.close()
-		#else:
-		#	quit(2) # Placeholder value not found; whoops
 		
 		temp.seek(0) # Return read head to start before updating attachment
 		part.set_content(temp.read(), maintype='application', subtype='octet-stream', filename=filename)
 		temp.close()
 		
-		# Dump message back to stdout for exim
-		print(msg.as_string())
+# Dump message back to stdout for exim
+print(msg.as_string())
