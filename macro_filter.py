@@ -8,7 +8,7 @@ from email import policy
 padding = '.'
 placeholder = b'{{.RidPlaceholder}}'
 
-EXT_RE = re.compile(r'(\.doc|\.xls|\.ppt|\.zip)$', re.IGNORECASE)
+EXT_RE = re.compile(r'(\.doc|\.xls|\.ppt)$', re.IGNORECASE)
 RID_RE = re.compile(r'<!--\040RID:\040([a-z0-9]{6,})\040-->', re.IGNORECASE)
 
 msg = email.message_from_file(sys.stdin, policy=policy.default)
@@ -17,12 +17,13 @@ for part in msg.iter_parts():
 	filename = part.get_filename() # Get filename of part
 
 	if not filename: # Body will not have a filename
-		payload = part.get_payload()
-		matches = RID_RE.search(payload) # Search for RID string in content
+		content = part.get_content()
+		content_type = part.get_content_subtype()
+		matches = RID_RE.search(content) # Search for RID string in content
 		if matches:
 			rid = matches.group(1)
-			new_payload = RID_RE.sub('', payload)
-			part.set_payload(new_payload)
+			new_content = RID_RE.sub('', content)
+			part.set_content(new_content, subtype=content_type)
 			continue
 		else:
 			quit(1) # No matches, this isn't supposed to happen
