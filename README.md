@@ -2,9 +2,10 @@
 Exim transport_filter python script that puts a user's RID value where a macro can see it for macro phishing
 
 # Usage
-1. Install exim (listen on loopback); then add this script's path into `exim.conf` as a `transport_filter` (see [here](https://www.exim.org/exim-html-current/doc/html/spec_html/ch-generic_options_for_transports.html) for more information)
-2. Set up a GoPhish sending profile that points at this local Exim instance
-3. Create an email attachment & template per the following
+1. Requires Python 3.6 and [olefile](https://pypi.org/project/olefile/)
+2. Install exim (listen on loopback); then add this script's path into `exim.conf` as a `transport_filter` (see [here](https://www.exim.org/exim-html-current/doc/html/spec_html/ch-generic_options_for_transports.html) for more information)
+3. Set up a GoPhish sending profile that points at this local Exim instance
+4. Create an email attachment & template per the following
 
 ## Email template
 The email template can be whatever you want, but must include the following exactly somewhere in the body: 
